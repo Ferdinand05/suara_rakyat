@@ -1,11 +1,13 @@
 <template>
-    <Head :title="title"></Head>
-    <Navbar></Navbar>
-    <main>
-        <slot></slot>
-    </main>
+    <div class="scroll-smooth">
+        <Head :title="title"></Head>
+        <Navbar></Navbar>
+        <main>
+            <slot></slot>
+        </main>
 
-    <Footer></Footer>
+        <Footer></Footer>
+    </div>
 </template>
 
 <script setup>

@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="font-poppins bg-transparent transition-all fixed w-full top-0 left-0 z-50"
+        class="homeNavbar font-poppins bg-transparent transition-all fixed w-full top-0 left-0 z-50"
         ref="nav"
     >
         <div
@@ -108,10 +108,10 @@
                                     >
                                 </li>
                                 <li>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        :href="route('dashboard')"
                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        >Dashboard</a
+                                        >Dashboard</Link
                                     >
                                 </li>
                             </ul>
@@ -133,7 +133,7 @@
 <script setup>
 import { ref } from "vue";
 window.addEventListener("scroll", function () {
-    const navbar = document.querySelector("nav");
+    const navbar = document.querySelector(".homeNavbar");
     if (window.scrollY > 250) {
         navbar.classList.add("bg-gray-500/50", "text-gray-800", "shadow-lg");
         navbar.classList.remove("bg-transparent", "text-white");
