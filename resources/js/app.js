@@ -1,4 +1,6 @@
 import "./bootstrap";
+//in your `main.js` file
+import "/node_modules/flowbite-vue/dist/index.css";
 import "flowbite";
 import { createApp, h } from "vue";
 import { createInertiaApp, Link } from "@inertiajs/vue3";
@@ -6,7 +8,7 @@ import { ZiggyVue } from "ziggy-js";
 
 createInertiaApp({
     progress: {
-        color: "blue",
+        color: "white",
         showSpinner: true,
     },
     resolve: (name) => {

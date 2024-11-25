@@ -1,7 +1,13 @@
+/* or in your `app.css` file */
+@import "/node_modules/flowbite-vue/dist/index.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 .text-shadow {
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.icon {
+    @apply flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white;
 }

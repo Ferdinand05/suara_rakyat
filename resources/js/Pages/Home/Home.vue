@@ -13,7 +13,8 @@
                     <h1
                         class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl"
                     >
-                        Suara Anda, Masa Depan Kita
+                        Suara Anda,
+                        <span class="text-blue-600">Masa Depan</span> Kita
                     </h1>
                     <p
                         class="mb-8 text-lg font-normal text-shadow text-white lg:text-xl sm:px-16 lg:px-48"
