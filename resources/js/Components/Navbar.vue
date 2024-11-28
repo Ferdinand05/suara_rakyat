@@ -69,26 +69,34 @@
                         >
                     </li>
                     <li>
-                        <Link
-                            :href="route('login')"
+                        <a
+                            href=""
                             class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                            >Login</Link
+                            >Pengaduan</a
                         >
                     </li>
-                    <li>
+                    <li v-if="!$page.props.auth.user.name">
                         <Link
                             :href="route('register')"
                             class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                             >Register</Link
                         >
                     </li>
-                    <li>
+                    <li v-if="!$page.props.auth.user.name">
+                        <Link
+                            :href="route('login')"
+                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            >Login</Link
+                        >
+                    </li>
+
+                    <li v-show="$page.props.auth.user.name">
                         <button
                             id="dropdownNavbarLink"
                             data-dropdown-toggle="dropdownNavbar"
                             class="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
                         >
-                            Ferdinand
+                            {{ $page.props.auth.user.name }}
                             <svg
                                 class="w-2.5 h-2.5 ms-2.5"
                                 aria-hidden="true"
@@ -121,7 +129,7 @@
                                         >Profile</a
                                     >
                                 </li>
-                                <li>
+                                <li v-if="$page.props.auth.user.role_id == 1">
                                     <Link
                                         :href="route('dashboard')"
                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -130,10 +138,12 @@
                                 </li>
                             </ul>
                             <div class="py-1">
-                                <a
-                                    href="#"
+                                <Link
+                                    as="button"
+                                    method="post"
+                                    :href="route('logout')"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                    >Sign out</a
+                                    >Sign out</Link
                                 >
                             </div>
                         </div>

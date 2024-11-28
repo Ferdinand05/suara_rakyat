@@ -1,24 +1,5 @@
 <template>
-    <DashboardLayout title="Kategori Pengaduan" subtitle="Kategori Pengaduan">
-        <Modal btn="+ Tambah" ref="modalCreate">
-            <template #header> Tambah Kategori </template>
-            <template #body>
-                <form method="post">
-                    <div>
-                        <FwbInput
-                            label="Nama Kategori"
-                            v-model="formKategori.nama_kategori"
-                        ></FwbInput>
-                        <small class="text-red-500">{{
-                            formKategori.errors.nama_kategori
-                        }}</small>
-                    </div>
-                </form>
-            </template>
-            <template #footer>
-                <FwbButton @click.prevent="createKategori()">Submit</FwbButton>
-            </template>
-        </Modal>
+    <DashboardLayout title="Users" subtitle="Users">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-3">
             <table
                 class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
@@ -28,14 +9,17 @@
                 >
                     <tr>
                         <th scope="col" class="px-6 py-3">No.</th>
-                        <th scope="col" class="px-6 py-3">Nama Kategori</th>
-                        <th scope="col" class="px-6 py-3">Jumlah Pengaduan</th>
+                        <th scope="col" class="px-6 py-3">Nama</th>
+                        <th scope="col" class="px-6 py-3">Email</th>
+                        <th scope="col" class="px-6 py-3">Telepon</th>
+                        <th scope="col" class="px-6 py-3">Role</th>
+                        <th scope="col" class="px-6 py-3">Bergabung</th>
                         <th scope="col" class="px-6 py-3">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr
-                        v-for="(kp, i) in kategoriPengaduan.data"
+                        v-for="(user, i) in users.data"
                         class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
                     >
                         <th
@@ -44,9 +28,11 @@
                         >
                             {{ i + 1 }}
                         </th>
-                        <td class="px-6 py-4">{{ kp.nama_kategori }}</td>
-                        <td class="px-6 py-4">{{ kp.pengaduans.length }}</td>
-                        <td class="px-6 py-4">{{ kp.created_at }}</td>
+                        <td class="px-6 py-4">{{ user.name }}</td>
+                        <td class="px-6 py-4">{{ user.email }}</td>
+                        <td class="px-6 py-4">{{ user.no_telp }}</td>
+                        <td class="px-6 py-4">{{ user.role }}</td>
+                        <td class="px-6 py-4">{{ user.created_at }}</td>
                         <td class="px-6 py-4">
                             <div class="flex gap-x-2">
                                 <FwbButton size="xs" color="red"
@@ -69,7 +55,7 @@
                                     </svg>
                                 </FwbButton>
                                 <Modal btn="Edit" size="sm">
-                                    <template #header>Edit Role</template>
+                                    <template #header>Edit User</template>
                                 </Modal>
                             </div>
                         </td>
@@ -81,35 +67,10 @@
 </template>
 
 <script setup>
-defineProps({
-    kategoriPengaduan: Object,
-});
 import DashboardLayout from "../Layouts/DashboardLayout.vue";
 import Modal from "../../Components/Modal.vue";
-import { FwbButton, FwbInput } from "flowbite-vue";
-import { useForm } from "@inertiajs/vue3";
-import { inject } from "vue";
-import Swal from "sweetalert2";
-import { ref } from "vue";
-
-const route = inject("route");
-const formKategori = useForm({
-    nama_kategori: null,
+import { FwbButton } from "flowbite-vue";
+defineProps({
+    users: Object,
 });
-const modalCreate = ref(null);
-function createKategori() {
-    formKategori.post(route("kategori-pengaduan.store"), {
-        onSuccess: () => {
-            Swal.fire({
-                position: "center",
-                icon: "success",
-                title: "Kategori Pengaduan berhasil dibuat",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-
-            modalCreate.value.closeModal();
-        },
-    });
-}
 </script>

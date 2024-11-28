@@ -1,5 +1,8 @@
 <template>
-    <section class="bg-gray-50 dark:bg-gray-900">
+    <section
+        class="bg-gray-50 dark:bg-gray-900"
+        style="background-image: url('/img/seigaiha.png')"
+    >
         <div
             class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
         >
@@ -23,7 +26,11 @@
                     >
                         Masuk untuk melanjutkan
                     </h1>
-                    <form class="space-y-4 md:space-y-6" action="#">
+                    <form
+                        class="space-y-4 md:space-y-6"
+                        @submit.prevent="login()"
+                        method="post"
+                    >
                         <div>
                             <label
                                 for="email"
@@ -36,8 +43,11 @@
                                 id="email"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="name@company.com"
-                                required=""
+                                v-model="formLogin.email"
                             />
+                            <small class="text-red-500">{{
+                                formLogin.errors.email
+                            }}</small>
                         </div>
                         <div>
                             <label
@@ -51,8 +61,11 @@
                                 id="password"
                                 placeholder="••••••••"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required=""
+                                v-model="formLogin.password"
                             />
+                            <small class="text-red-500">{{
+                                formLogin.errors.password
+                            }}</small>
                         </div>
                         <div class="flex items-center justify-between">
                             <div class="flex items-start">
@@ -62,7 +75,7 @@
                                         aria-describedby="remember"
                                         type="checkbox"
                                         class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                                        required=""
+                                        v-model="formLogin.remember_me"
                                     />
                                 </div>
                                 <div class="ml-3 text-sm">
@@ -89,10 +102,10 @@
                             class="text-sm font-light text-gray-500 dark:text-gray-400"
                         >
                             Belum punya akun?
-                            <a
-                                href="#"
+                            <Link
+                                href="/register"
                                 class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                                >Daftar</a
+                                >Daftar</Link
                             >
                         </p>
                     </form>
@@ -102,4 +115,21 @@
     </section>
 </template>
 
-<script setup></script>
+<script setup>
+import { router, useForm } from "@inertiajs/vue3";
+import { inject } from "vue";
+import Swal from "sweetalert2";
+const route = inject("route");
+
+const formLogin = useForm({
+    email: null,
+    password: null,
+    remember_me: false,
+});
+
+function login() {
+    formLogin.post(route("login.store"), {
+        onSuccess: () => {},
+    });
+}
+</script>
