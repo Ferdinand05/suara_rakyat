@@ -6,7 +6,7 @@
         <div
             class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
         >
-            <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img
                     src="https://flowbite.com/docs/images/logo.svg"
                     class="h-8"
@@ -47,8 +47,12 @@
                 >
                     <li>
                         <a
-                            href="#beranda"
-                            class="block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent"
+                            href="/"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
                             >Beranda</a
                         >
                     </li>
@@ -56,7 +60,11 @@
                     <li>
                         <a
                             href="#tentang"
-                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
                             >Tentang</a
                         >
                     </li>
@@ -64,28 +72,44 @@
                     <li>
                         <a
                             href="#layanan"
-                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
                             >Layanan</a
                         >
                     </li>
                     <li>
-                        <a
-                            href=""
-                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                            >Pengaduan</a
+                        <Link
+                            :href="route('home.pengaduan')"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
+                            >Pengaduan</Link
                         >
                     </li>
                     <li v-if="!$page.props.auth.user.name">
                         <Link
                             :href="route('register')"
-                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
                             >Register</Link
                         >
                     </li>
                     <li v-if="!$page.props.auth.user.name">
                         <Link
                             :href="route('login')"
-                            class="block py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                                    : 'block py-2 px-3 text-white rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
+                            "
                             >Login</Link
                         >
                     </li>
@@ -156,6 +180,7 @@
 
 <script setup>
 import { ref } from "vue";
+import { router } from "@inertiajs/vue3";
 window.addEventListener("scroll", function () {
     const navbar = document.querySelector(".homeNavbar");
     if (window.scrollY > 250) {
