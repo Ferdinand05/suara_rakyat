@@ -10,7 +10,7 @@ use App\Http\Controllers\KategoriPengaduanController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', [HomeController::class, 'index'])->name('/');
-
+Route::get('/pengaduan', [HomeController::class, 'pengaduanView'])->name('home.pengaduan');
 
 
 
