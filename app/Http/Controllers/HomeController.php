@@ -20,4 +20,20 @@ class HomeController extends Controller
             'kategoriPengaduan' => KategoriPengaduanResources::collection(KategoriPengaduan::all())
         ]);
     }
+
+    // upload image pengaduan
+    public function upload(Request $request)
+    {
+
+        if ($request->hasFile('upload')) {
+            $file = $request->file('upload');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $file->storeAs('uploads', $filename, 'public');
+
+            return response()->json([
+                'url' => asset('storage/' . $path), // URL gambar yang akan dimasukkan ke editor
+            ]);
+        }
+        return response()->json(['error' => 'No file uploaded.'], 400);
+    }
 }

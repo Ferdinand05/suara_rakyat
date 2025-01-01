@@ -114,6 +114,11 @@ import DefaultLayout from "../Layouts/DefaultLayout.vue";
 import { ref } from "vue";
 import Swal from "sweetalert2";
 import { Ckeditor } from "@ckeditor/ckeditor5-vue";
+import { SimpleUploadAdapter } from "ckeditor5";
+const csrfToken = document
+    .querySelector('meta[name="csrf-token"]')
+    .getAttribute("content");
+
 import {
     ClassicEditor,
     Bold,
@@ -129,11 +134,19 @@ import {
     Table,
     Undo,
     retry,
+    Image,
+    ImageCaption,
+    ImageResize,
+    ImageToolbar,
+    ImageStyle,
+    LinkImage,
+    ImageUpload,
 } from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
 import { FwbFileInput, FwbSelect } from "flowbite-vue";
 const editor = ClassicEditor;
 const editorConfig = {
+    height: 500,
     toolbar: [
         "undo",
         "redo",
@@ -150,6 +163,8 @@ const editorConfig = {
         "numberedList",
         "indent",
         "outdent",
+        "image",
+        "imageUpload",
     ],
     plugins: [
         Bold,
@@ -163,7 +178,28 @@ const editorConfig = {
         Paragraph,
         Table,
         Undo,
+        SimpleUploadAdapter,
+        Image,
+        ImageToolbar,
+        ImageCaption,
+        ImageStyle,
+        ImageResize,
+        LinkImage,
+        ImageUpload,
     ],
+    simpleUpload: {
+        // URL backend untuk upload gambar
+        uploadUrl: "/upload",
+        headers: {
+            "X-CSRF-TOKEN": csrfToken,
+        },
+        onError: (error) => {
+            console.error("Upload Error: ", error);
+        },
+        onUploadComplete: (response) => {
+            console.log("Upload Response: ", response);
+        },
+    },
 };
 const page = usePage();
 const kategoriPengaduan = [];
