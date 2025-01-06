@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\KategoriPengaduanResources;
 use App\Models\KategoriPengaduan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -28,12 +29,17 @@ class HomeController extends Controller
         if ($request->hasFile('upload')) {
             $file = $request->file('upload');
             $filename = time() . '_' . $file->getClientOriginalName();
-            $path = $file->storeAs('uploads', $filename, 'public');
+            $path = $file->storeAs('uploads', $filename, 's3');
 
+
+            $url = Storage::disk('s3')->url($path); // Ambil URL file
             return response()->json([
-                'url' => asset('storage/' . $path), // URL gambar yang akan dimasukkan ke editor
+                'uploaded' => true,
+                'url' => $url, // URL gambar yang akan dimasukkan ke editor
             ]);
         }
         return response()->json(['error' => 'No file uploaded.'], 400);
     }
+
+    public function createPengaduan(Request $request) {}
 }

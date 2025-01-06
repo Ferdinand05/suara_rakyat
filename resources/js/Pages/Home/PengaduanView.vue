@@ -35,8 +35,8 @@
                         ></ckeditor>
                     </div>
                     <div class="mb-3">
-                        <label for="bukti" class="font-semibold sm:text-xl"
-                            >Upload Bukti Pengaduan</label
+                        <label for="bukti" class="font-semibold sm:text-xl">
+                            Bukti Pendukung Pengaduan</label
                         >
                         <p
                             class="flex items-center text-sm text-gray-500 dark:text-gray-400"
@@ -96,8 +96,9 @@
                     </div>
                     <div>
                         <label for="lokasi" class="font-semibold sm:text-xl"
-                            >Lokasi</label
+                            >Lokasi Pengaduan</label
                         >
+                        <Map></Map>
                     </div>
                 </form>
             </div>
@@ -109,6 +110,7 @@
 defineProps({
     kategoriPengaduan: Object,
 });
+import Map from "../../Components/Map.vue";
 import { usePage } from "@inertiajs/vue3";
 import DefaultLayout from "../Layouts/DefaultLayout.vue";
 import { ref } from "vue";
@@ -192,12 +194,6 @@ const editorConfig = {
         uploadUrl: "/upload",
         headers: {
             "X-CSRF-TOKEN": csrfToken,
-        },
-        onError: (error) => {
-            console.error("Upload Error: ", error);
-        },
-        onUploadComplete: (response) => {
-            console.log("Upload Response: ", response);
         },
     },
 };
