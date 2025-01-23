@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProfileResources;
+use App\Http\Resources\UserResources;
 use App\Models\User;
 use App\Providers\AppServiceProvider;
 use Illuminate\Http\Request;
@@ -11,6 +13,16 @@ use Inertia\Inertia;
 
 class AuthController extends Controller
 {
+
+    public function profile()
+    {
+        $id = Auth::user()->id;
+        $user = User::where('id', $id)->first();
+        return Inertia::render('Auth/ProfileView', [
+            'user' => new ProfileResources($user)
+        ]);
+    }
+
     public function loginIndex(Request $request)
     {
         return Inertia::render('Auth/LoginView');
