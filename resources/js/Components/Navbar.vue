@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="homeNavbar font-poppins bg-transparent transition-all fixed w-full top-0 left-0 z-50"
+        class="homeNavbar font-poppins bg-transparent z-[999] transition-all fixed w-full top-0 left-0"
         ref="nav"
     >
         <div
@@ -59,7 +59,7 @@
 
                     <li>
                         <a
-                            href="#tentang"
+                            :href="route('/') + '#tentang'"
                             :class="
                                 $page.url == '/pengaduan'
                                     ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
@@ -71,7 +71,7 @@
 
                     <li>
                         <a
-                            href="#layanan"
+                            :href="route('/') + '#layanan'"
                             :class="
                                 $page.url == '/pengaduan'
                                     ? 'block py-2 px-3 text-gray-400 rounded md:bg-transparent hover:bg-gray-100/30 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:text-blue-500 dark:bg-blue-600 md:dark:bg-transparent'
@@ -117,8 +117,13 @@
                     <li v-show="$page.props.auth.user.name">
                         <button
                             id="dropdownNavbarLink"
+                            data-dropdown-trigger="hover"
                             data-dropdown-toggle="dropdownNavbar"
-                            class="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+                            :class="
+                                $page.url == '/pengaduan'
+                                    ? 'flex items-center justify-between w-full py-2 px-3 text-gray-400 rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent'
+                                    : 'flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100/30 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent'
+                            "
                         >
                             {{ $page.props.auth.user.name }}
                             <svg
@@ -148,7 +153,7 @@
                             >
                                 <li>
                                     <a
-                                        href="#"
+                                        :href="route('profile')"
                                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                                         >Profile</a
                                     >

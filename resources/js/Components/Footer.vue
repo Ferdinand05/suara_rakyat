@@ -1,5 +1,5 @@
 <template>
-    <footer class="bg-gray-100 shadow dark:bg-gray-900">
+    <footer class="bg-gray-100 shadow dark:bg-gray-900 border-t">
         <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
             <div class="sm:flex sm:items-center sm:justify-between">
                 <a
@@ -20,25 +20,33 @@
                     class="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400"
                 >
                     <li>
-                        <a href="#tentang" class="hover:underline me-4 md:me-6"
+                        <a
+                            :href="route('/') + '#tentang'"
+                            class="hover:underline me-4 md:me-6"
                             >Tentang</a
                         >
                     </li>
                     <li>
-                        <a href="#layanan" class="hover:underline me-4 md:me-6"
+                        <a
+                            :href="route('/') + '#layanan'"
+                            class="hover:underline me-4 md:me-6"
                             >Layanan</a
                         >
                     </li>
 
                     <li>
                         <a
-                            href="#statistik"
+                            :href="route('/') + '#statistik'"
                             class="hover:underline me-4 md:me-6"
                             >Statistik</a
                         >
                     </li>
                     <li>
-                        <a href="#kontak" class="hover:underline">Kontak</a>
+                        <a
+                            :href="route('/') + '#kontak'"
+                            class="hover:underline"
+                            >Kontak</a
+                        >
                     </li>
                 </ul>
             </div>
@@ -55,3 +63,5 @@
         </div>
     </footer>
 </template>
+
+<script setup></script>

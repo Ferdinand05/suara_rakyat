@@ -13,7 +13,7 @@
         <template #footer>
             <div class="flex justify-between">
                 <fwb-button @click="closeModal" color="alternative">
-                    Cancel
+                    Close
                 </fwb-button>
                 <slot name="footer"> </slot>
             </div>
