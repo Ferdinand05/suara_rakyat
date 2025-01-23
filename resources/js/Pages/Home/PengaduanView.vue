@@ -12,7 +12,12 @@
                         *Anda Harus Masuk/Daftar untuk melakukan pengaduan.
                     </p>
                 </div>
-                <form action="" method="post" enctype="multipart/form-data">
+                <form
+                    v-else
+                    @submit.prevent="createPengaduan()"
+                    method="post"
+                    enctype="multipart/form-data"
+                >
                     <div class="mb-4">
                         <label for="kategori" class="font-semibold sm:text-xl"
                             >Kategori Pengaduan</label
@@ -22,6 +27,11 @@
                             placeholder="Pilih Kategori"
                             v-model="selectedKategori"
                         ></FwbSelect>
+                        <small
+                            v-show="formPengaduan.errors.kategori"
+                            class="text-red-600"
+                            >{{ formPengaduan.errors.kategori }}</small
+                        >
                     </div>
                     <div class="mb-4">
                         <label for="deskripsi" class="font-semibold sm:text-xl"
@@ -33,6 +43,11 @@
                             v-model="deskripsi"
                             :config="editorConfig"
                         ></ckeditor>
+                        <small
+                            v-show="formPengaduan.errors.deskripsi"
+                            class="text-red-600"
+                            >{{ formPengaduan.errors.deskripsi }}</small
+                        >
                     </div>
                     <div class="mb-3">
                         <label for="bukti" class="font-semibold sm:text-xl">
@@ -66,7 +81,7 @@
                             data-popover
                             id="popover-description"
                             role="tooltip"
-                            class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
+                            class="absolute z-[900] invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
                         >
                             <div class="p-3 space-y-2">
                                 <h3
@@ -90,16 +105,38 @@
                             <div data-popper-arrow></div>
                         </div>
                         <FwbFileInput
-                            multiple="true"
-                            v-model="files"
+                            :multiple="true"
+                            @change="inputFile($event)"
                         ></FwbFileInput>
+                        <small
+                            class="text-red-500"
+                            v-for="(file, index) in formPengaduan.errors.files"
+                        >
+                            {{ file }}
+                        </small>
                     </div>
                     <div>
                         <label for="lokasi" class="font-semibold sm:text-xl"
                             >Lokasi Pengaduan</label
                         >
-                        <Map></Map>
+                        <Map ref="mapComponent" />
                     </div>
+                    <div class="mt-3">
+                        <FwbButton
+                            type="submit"
+                            :disabled="formPengaduan.processing"
+                            >Kirim</FwbButton
+                        >
+                    </div>
+                    <progress
+                        v-if="formPengaduan.progress"
+                        id="file"
+                        :value="formPengaduan.progress.percentage"
+                        max="100"
+                        class="bg-blue-400 rounded-md"
+                    >
+                        10%
+                    </progress>
                 </form>
             </div>
         </section>
@@ -111,7 +148,7 @@ defineProps({
     kategoriPengaduan: Object,
 });
 import Map from "../../Components/Map.vue";
-import { usePage } from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
 import DefaultLayout from "../Layouts/DefaultLayout.vue";
 import { ref } from "vue";
 import Swal from "sweetalert2";
@@ -143,9 +180,10 @@ import {
     ImageStyle,
     LinkImage,
     ImageUpload,
+    Alignment,
 } from "ckeditor5";
 import "ckeditor5/ckeditor5.css";
-import { FwbFileInput, FwbSelect } from "flowbite-vue";
+import { FwbButton, FwbFileInput, FwbSelect } from "flowbite-vue";
 const editor = ClassicEditor;
 const editorConfig = {
     height: 500,
@@ -167,6 +205,7 @@ const editorConfig = {
         "outdent",
         "image",
         "imageUpload",
+        "alignment",
     ],
     plugins: [
         Bold,
@@ -197,6 +236,7 @@ const editorConfig = {
         },
     },
 };
+
 const page = usePage();
 const kategoriPengaduan = [];
 page.props.kategoriPengaduan.data.forEach((element) => {
@@ -205,8 +245,48 @@ page.props.kategoriPengaduan.data.forEach((element) => {
         name: element.nama_kategori,
     });
 });
+const mapComponent = ref(null);
 
 const deskripsi = ref();
-const files = ref();
+const files = ref([]);
 const selectedKategori = ref();
+
+function inputFile(e) {
+    files.value = Array.from(e.target.files);
+
+    formPengaduan.files = files.value;
+    console.log(formPengaduan.files);
+}
+
+const formPengaduan = useForm({
+    kategori: null,
+    deskripsi: null,
+    files: null,
+    lat: 0,
+    lng: 0,
+});
+
+function createPengaduan() {
+    // Ambil lokasi dari Map child component
+    const mapData = mapComponent.value.selectedLocation;
+    // Gunakan mapData.lat dan mapData.lng sesuai kebutuhan
+
+    formPengaduan.kategori = selectedKategori.value;
+    formPengaduan.deskripsi = deskripsi.value;
+    formPengaduan.lat = mapData.lat;
+    formPengaduan.lng = mapData.lng;
+    formPengaduan.post(route("create.pengaduan"), {
+        forceFormData: true,
+        onSuccess: () => {
+            Swal.fire({
+                title: "Good job!",
+                text: "Pengaduan Berhasil Dikirim, Cek status pengaduan di Profile",
+                icon: "success",
+            });
+
+            formPengaduan.reset("deskripsi", "files", "kategori");
+            window.location.reload();
+        },
+    });
+}
 </script>
