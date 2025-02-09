@@ -58,6 +58,7 @@ class HomeController extends Controller
             'files.*' => ['image', 'mimes:png,jpg,jpeg'],
             'lat' => ['required'],
             'lng' => ['required'],
+            "recaptcha" => ['required', 'string', 'min:200']
         ]);
 
 
@@ -96,9 +97,12 @@ class HomeController extends Controller
     {
 
         $pengaduan = Pengaduan::with(['user', 'kategori', 'buktiPengaduan'])->where('id', $id)->first();
+        // Modifikasi bukti pengaduan agar URL lengkap
 
+        $buktiPengaduan = BuktiPengaduan::where('pengaduan_id', $pengaduan->id)->get();
         return Inertia::render('Home/DetailPengaduanView', [
             'pengaduan' => $pengaduan,
+            'buktiPengaduan' => $buktiPengaduan,
             'tanggapan' => TanggapanResources::collection(Tanggapan::where('pengaduan_id', $id)->get())
         ]);
     }

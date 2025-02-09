@@ -16,4 +16,19 @@
 
 .ck-editor__editable_inline {
     height: 350px;
+    z-index: 10;
+}
+
+.ck-editor__editable {
+    z-index: 10; /* Pastikan angka ini lebih kecil dari z-index navbar */
+}
+
+.leaflet-control-zoom,
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+    z-index: 10;
+}
+
+.deskripsi img {
+    @apply max-w-md;
 }

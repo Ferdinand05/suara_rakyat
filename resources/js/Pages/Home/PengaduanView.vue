@@ -1,5 +1,5 @@
 <template>
-    <DefaultLayout>
+    <DefaultLayout title="Form Pengaduan">
         <section class="font-poppins">
             <div style="background-image: url('img/seigaiha.png')" class="p-20">
                 <h2 class="sm:text-4xl text-2xl font-bold text-center">
@@ -121,6 +121,16 @@
                         >
                         <Map ref="mapComponent" />
                     </div>
+                    <!-- SECTION recaptcha -->
+                    <div class="mt-4">
+                        <Checkbox v-model="formPengaduan.recaptcha"></Checkbox>
+                        <small>{{
+                            formPengaduan.recaptcha
+                                ? "Verified"
+                                : "Please click the checkbox"
+                        }}</small>
+                    </div>
+
                     <div class="mt-3">
                         <FwbButton
                             type="submit"
@@ -154,6 +164,8 @@ import { ref } from "vue";
 import Swal from "sweetalert2";
 import { Ckeditor } from "@ckeditor/ckeditor5-vue";
 import { SimpleUploadAdapter } from "ckeditor5";
+// SECTION RECAPTCHA
+
 const csrfToken = document
     .querySelector('meta[name="csrf-token"]')
     .getAttribute("content");
@@ -264,6 +276,7 @@ const formPengaduan = useForm({
     files: null,
     lat: 0,
     lng: 0,
+    recaptcha: "",
 });
 
 function createPengaduan() {
@@ -289,4 +302,7 @@ function createPengaduan() {
         },
     });
 }
+
+import { useRecaptchaProvider } from "vue-recaptcha";
+useRecaptchaProvider();
 </script>
