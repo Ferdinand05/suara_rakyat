@@ -35,58 +35,68 @@
                     </h1>
                     <!-- kumpulan pengaduan -->
                     <div class="flex flex-wrap gap-3 md:gap-4">
-                        <a
-                            v-for="p in user.data.pengaduan"
-                            :href="route('detail.pengaduan', p.id)"
-                            class="block max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                        >
-                            <h5
-                                class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                        <div v-for="p in user.data.pengaduan">
+                            <a
+                                :href="route('detail.pengaduan', p.id)"
+                                class="block max-w-sm p-3 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                             >
-                                Pengaduan
-                                <span class="text-blue-600">{{
-                                    p.kategori
-                                }}</span>
-                            </h5>
-                            <div
-                                class="font-normal text-gray-700 dark:text-gray-400"
-                            >
-                                <dd class="text-lg font-semibold">
-                                    <span
-                                        v-if="p.status == 'pending'"
-                                        class="bg-blue-200 uppercase text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-                                        >{{ p.status }}</span
-                                    >
-                                    <span
-                                        v-else-if="p.status == 'diproses'"
-                                        class="bg-gray-300 uppercase text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
-                                        >{{ p.status }}</span
-                                    >
-                                    <span
-                                        v-else-if="p.status == 'ditolak'"
-                                        class="bg-red-200 uppercase text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-                                        >{{ p.status }}</span
-                                    >
-                                    <span
-                                        v-else
-                                        class="bg-green-200 uppercase text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-                                        >{{ p.status }}</span
-                                    >
-                                </dd>
-                                <div class="mt-2 md:mt-3">
-                                    <div
-                                        class="italic"
-                                        v-if="p.tanggapan.length == 0"
-                                    >
-                                        Belum ada tanggapan
+                                <h5
+                                    class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+                                >
+                                    Pengaduan
+                                    <span class="text-blue-600">{{
+                                        p.kategori
+                                    }}</span>
+                                </h5>
+                                <div
+                                    class="font-normal text-gray-700 dark:text-gray-400"
+                                >
+                                    <dd class="text-lg font-semibold">
+                                        <span
+                                            v-if="p.status == 'pending'"
+                                            class="bg-blue-200 uppercase text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                                            >{{ p.status }}</span
+                                        >
+                                        <span
+                                            v-else-if="p.status == 'diproses'"
+                                            class="bg-gray-300 uppercase text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                                            >{{ p.status }}</span
+                                        >
+                                        <span
+                                            v-else-if="p.status == 'ditolak'"
+                                            class="bg-red-200 uppercase text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
+                                            >{{ p.status }}</span
+                                        >
+                                        <span
+                                            v-else
+                                            class="bg-green-200 uppercase text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
+                                            >{{ p.status }}</span
+                                        >
+                                    </dd>
+                                    <div class="mt-2 md:mt-3">
+                                        <div
+                                            class="italic"
+                                            v-if="p.tanggapan.length == 0"
+                                        >
+                                            Belum ada tanggapan
+                                        </div>
+                                        <div v-else class="font-semibold">
+                                            {{ p.tanggapan.length }} Tanggapan
+                                        </div>
+                                        <small>Dibuat {{ p.created_at }}</small>
                                     </div>
-                                    <div v-else class="font-semibold">
-                                        {{ p.tanggapan.length }} Tanggapan
-                                    </div>
-                                    <small>Dibuat {{ p.created_at }}</small>
                                 </div>
+                            </a>
+                            <div v-if="p.status == 'pending'" class="mt-1.5">
+                                <FwbButton
+                                    class="w-full"
+                                    size="xs"
+                                    color="red"
+                                    @click="cancelPengaduan(p.id)"
+                                    >Cancel</FwbButton
+                                >
                             </div>
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,8 +105,42 @@
 </template>
 
 <script setup>
+import { FwbButton } from "flowbite-vue";
 import DefaultLayout from "../Layouts/DefaultLayout.vue";
+import { useForm } from "@inertiajs/vue3";
+import Swal from "sweetalert2";
 defineProps({
     user: Object,
 });
+
+const formCancelPengaduan = useForm({
+    id: null,
+});
+function cancelPengaduan(id) {
+    formCancelPengaduan.id = id;
+
+    Swal.fire({
+        title: "Apa anda yakin?",
+        text: "Anda akan membatalkan pengaduan ini.!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Batalkan",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            formCancelPengaduan.delete(route("cancel.pengaduan", id), {
+                preserveScroll: true,
+                onSuccess: (result) => {
+                    console.log(result);
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Pengaduan berhasil dibatalkan.",
+                        icon: "success",
+                    });
+                },
+            });
+        }
+    });
+}
 </script>
