@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     // Home Pengaduan
     Route::post('/pengaduan', [HomeController::class, 'createPengaduan'])->name('create.pengaduan');
     Route::get('/detail-pengaduan/{id}', [HomeController::class, 'detailPengaduan'])->name('detail.pengaduan');
-
+    Route::delete('/pengaduan/cancel-pengaduan/{id}', [PengaduanController::class, 'cancelPengaduan'])->name('cancel.pengaduan');
     // Admin Only
     Route::middleware('isAdmin')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
